@@ -2,19 +2,19 @@
 
 - Stats Turnover Vs. Asst. season 2000s
 
-[!image all](https://github.com/Patipat-Panyasukum/R-Programming_1/blob/main/TO%20and%20ASST.%20analysis%202000.jpeg)
+![image all](https://github.com/Patipat-Panyasukum/R-Programming_1/blob/main/TO%20and%20ASST.%20analysis%202000.jpeg)
 
 - Percentage Shot made analysis 
 
-[!image all](https://github.com/Patipat-Panyasukum/R-Programming_1/blob/main/Percentage%202pt%20vs%203pt.jpeg)
+![image all](https://github.com/Patipat-Panyasukum/R-Programming_1/blob/main/Percentage%202pt%20vs%203pt.jpeg)
 
 - Percentage Shot made analysis - Lakers Team 2000s
 
-[!image all](https://github.com/Patipat-Panyasukum/R-Programming_1/blob/main/LAL_2000.jpeg)
+![image all](https://github.com/Patipat-Panyasukum/R-Programming_1/blob/main/LAL_2000.jpeg)
 
 - Defensive stat 2000s
 
-[!image all](https://github.com/Patipat-Panyasukum/R-Programming_1/blob/main/Def%20stat.jpeg)
+![image all](https://github.com/Patipat-Panyasukum/R-Programming_1/blob/main/Def%20stat.jpeg)
 
 
 # R Programming Showcase
