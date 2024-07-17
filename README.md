@@ -50,9 +50,8 @@ rmation**
   Detail: Using functions like barline and bubbleplot to combine multiple data dimensions into a single visual representation, allowing for comprehensive data analysis.
 
 **8. Dynamic Plot Customization**
-
-    Skill: Customizing plots dynamically based on selected criteria (e.g., team, season).
-    Detail: Filtering data for specific teams and seasons and creating plots that reflect these selections, demonstrating the ability to tailor visualizations to specific          analytical needs.
+  Skill: Customizing plots dynamically based on selected criteria (e.g., team, season).
+  Detail: Filtering data for specific teams and seasons and creating plots that reflect these selections, demonstrating the ability to tailor visualizations to specific     analytical needs.
     
 **9. Data Summarization**
 
