@@ -83,3 +83,112 @@ rmation**
 
   Skill: Combining multiple plots into a cohesive dashboard layout.
   Detail: Using layout functions to arrange plots, enabling a comprehensive view of data insights in a single interface.
+
+# Project game made
+
+Here's a detailed breakdown of the skills demonstrated:
+
+# Project I: Hammer, Scissors, and Paper Game**
+
+**1. Package Management**
+
+Skill: Installing R packages using install.packages.
+Example: install.packages("languageserver").
+
+**2. Function Definition**
+
+Skill: Defining and using functions to encapsulate game logic.
+Example: The function sanook_game encapsulates the entire game logic.
+
+**3. User Interaction**
+
+Skill: Interacting with the user via console inputs and outputs.
+Example: Using readline to get user input and print to display messages.
+
+**4. Control Structures**
+
+Skill: Using loops (while) and conditional statements (if-else) to control the flow of the game.
+Example: The while loop controls the game rounds, and the if-else statements determine the game outcome.
+
+**5. Random Sampling**
+
+Skill: Using sample to randomly select the computer's hand.
+Example: comp_hand <- sample(your_hand, 1).
+
+**6. String Manipulation**
+
+Skill: Concatenating and formatting strings.
+Example: print(paste("Round:", player_counted)).
+
+**7. Basic Game Logic**
+
+Skill: Implementing the rules of the game to determine the winner of each round.
+Example: The logic within the if-else statements to compare user_hand and comp_hand.
+
+**8. Score Keeping**
+
+Skill: Maintaining and updating scores for the player and the computer.
+Example: player_score and comp_score variables are updated based on game outcomes.
+
+**9. Loop and Conditional Logic for Replay**
+
+Skill: Implementing a mechanism to allow the user to replay the game.
+Example: The while(retry) loop and nested if-else statements for replay logic.
+
+# Project II: Chat Bot to Order Pizza
+
+**1. Data Frame Creation**
+
+Skill: Creating and manipulating data frames.
+Example: df_menu data frame to store the menu items and prices.
+
+**2. Function Definition**
+
+Skill: Defining a function to encapsulate the chatbot logic.
+Example: The function chatbot.
+
+**3. User Interaction**
+
+Skill: Interacting with the user via console inputs and outputs.
+Example: Using readline to get user input and print to display messages.
+
+**4. Control Structures**
+
+Skill: Using loops (while) and conditional statements (if-else) to control the flow of the ordering process.
+Example: The while(order) loop controls the ordering process, and the if-else statements handle different user inputs.
+
+**5. Data Storage and Manipulation**
+
+Skill: Storing and manipulating order details in a list.
+Example: order_detail list stores details of each pizza order.
+
+**6. String Manipulation**
+
+Skill: Concatenating and formatting strings.
+Example: print(paste("Hi", username, "Here's our menu")).
+
+**7. Arithmetic Operations**
+
+Skill: Performing arithmetic operations to calculate the total amount.
+Example: total_amount <- total_amount + item_amount.
+
+**8. Iterating Over Lists**
+
+Skill: Iterating over lists to display order details.
+Example: The for loop iterates over order_detail to print each order item.
+
+**9. User Prompting**
+
+Skill: Prompting the user for additional information such as phone number and payment method.
+Example: phone <- readline("Please enter your phone number: ").
+
+# Overall Technical Skills
+- Basic Programming Constructs: Functions, loops, conditionals, and variable manipulation.
+- User Interaction: Handling user inputs and providing outputs.
+- String Manipulation: Constructing and formatting strings for output messages.
+- Data Structures: Creating and manipulating data frames and lists.
+- Control Flow: Using loops and conditionals to control the flow of the program.
+- Random Sampling: Using random sampling for game mechanics.
+- Arithmetic Operations: Performing calculations for scorekeeping and order totals.
+- Iterative Processing: Iterating over lists to process and display data.
+- Interactive User Experience: Building interactive experiences through console-based games and chatbots.
