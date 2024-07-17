@@ -33,6 +33,7 @@ rmation**
 
   Skill: Aggregating data to create summary statistics for teams and players across seasons.
   Detail: Grouping data by season and team, and summarizing key metrics such as games played, minutes, points, and shooting percentages. This involves advanced data              manipulation techniques.
+  
 **5. Exploratory Data Analysis (EDA)**
 
   Skill: Conducting EDA to uncover insights from the data.
