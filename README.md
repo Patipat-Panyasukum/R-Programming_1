@@ -22,6 +22,7 @@ The given R code demonstrates proficiency in data analysis and visualization usi
 
   Skill: Using the nbastatR package to interact with APIs and retrieve NBA game data.
   Detail: Functions like seasons_schedule and game_logs are employed to fetch detailed game schedules and player/team performance logs, showcasing the ability to work with     external data sources.
+  
 **3. Data Cleaning and Transfo
 rmation**
 
