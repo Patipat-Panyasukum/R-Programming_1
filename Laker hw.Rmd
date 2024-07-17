@@ -1,0 +1,198 @@
+---
+title: "Laker analytics 2008 - 2009 season"
+author: "Patipat Panyasukum"
+date: "2024-03-09"
+output:
+  html_document: default
+  word_document: default
+---
+
+## Laker analytics
+```{r setup, warning=FALSE, fig.width=14, fig.height=7}
+
+## load library
+library(tidyverse)
+library(ggplot2)
+library(glue)
+library(dplyr)
+library (patchwork)
+library(ggthemes)
+
+## filter for data and ggplot
+#######################################
+## Who is the most percentage 3PM 2008-2009 season.
+#######################################
+## 3pt made ###########################
+t1<-lakers %>%
+  group_by(player) %>%
+  filter(result =="made"& type =="3pt") %>%  # Use == for comparison
+  count(type) %>%
+  rename(Made_3pointers = n) %>% # Rename 'n' to 'Made_3pointers'
+  arrange(desc(Made_3pointers)) %>%# Order by count descending
+  as.data.frame()
+
+#### 3p missed #########################
+t2<-lakers %>%
+  group_by(player) %>%
+  filter(result =="missed"& type =="3pt") %>%  # Use == for comparison
+  count(type) %>%
+  rename(missed_3pointers = n) %>% # Rename 'n' to 'Made_3pointers'
+  arrange(desc(missed_3pointers))%>% # Order by count descending
+as.data.frame()
+
+view(lakers)
+### calculate the percentage shot made order by desc##
+t3<- lakers %>%
+  group_by(player) %>%
+  ##new col in percentage
+  mutate(
+    allshot = sum(result == "made" & type == "3pt") + sum(result == "missed" & type == "3pt"),
+    percentage_sm = round(((allshot - sum(result == "missed" & type == "3pt")) / allshot) * 100, 4),
+  ## new col in percentage made
+  formatted_percentage = glue("{percentage_sm} %")) %>%
+  # Filter out rows with NA in formatted_percentage & only player in LA Lakers
+  filter(!grepl("NaN %", formatted_percentage) & team =="LAL") %>% 
+  ## filter if percentage is negative
+  mutate(formatted_percentage = ifelse(formatted_percentage < 0, "0%", formatted_percentage)) %>%
+  select(player, allshot,formatted_percentage) %>%
+  left_join(t2, by = "player") %>%  # Include columns from t2 in the join
+  left_join(t1, by = "player") %>%  # Include columns from t1 in the join
+  # Now you can access columns from all joined data frames
+  # Replace Some Column with the desired column from t2
+  select(player, allshot, Made_3pointers, formatted_percentage) %>%
+  # Remove duplicates using distinct
+  distinct() %>%  
+  #order by
+  arrange(desc(allshot)) %>%
+  # Select top 20 rows based on descending percentage_sm
+  head(25)%>%
+  as.data.frame()
+
+str(t3)
+#\d+: This matches one or more digits (0-9). The + symbol indicates that the preceding pattern (in this case, a digit) can be repeated at least once.
+#\.: This matches a literal dot (.). It escapes the dot because a dot in a regular expression has special meaning (matching any character).
+#\d*: This matches zero or more digits (0-9). The * symbol indicates that the preceding pattern (a digit) can be repeated zero or more times.
+##Example:
+##Consider the string "35.22%":
+##The first \\d+ matches "35".
+##The \\. matches the dot (.).
+##The second \\d* matches "22".
+##Therefore, the entire regular expression successfully extracts the numeric part "35.22" from the percentage string.
+##Incorporating into str_extract():
+#The str_extract() function in dplyr uses this regular expression to search within the formatted_percentage column of your data frame t3. It then returns only the matching parts (the numeric values) as a new column named numeric_percentage.
+t3 <- t3 %>%
+  mutate(numeric_percentage = str_extract(formatted_percentage, "\\d+\\.?\\d*")) %>%
+  mutate(numeric_percentage = as.numeric(numeric_percentage))
+
+plot_101 <- ggplot(data = t3 ,
+       mapping = aes(x = numeric_percentage, 
+                     y = Made_3pointers , 
+                     color = Made_3pointers)) +
+  geom_point(alpha = 1,size = 2) +
+  # Optional: Set x-axis limits (on numeric scale)
+  xlim(20, 70) +  
+  # Add text labels with slight offset
+  geom_text(aes(label = player), nudge_y = 8) +
+  scale_color_gradient(low = "gold", high = "purple") +
+  ## making label
+  labs(
+    title="Percentage 3pm",
+    subtitle="Laker 08-09 Season",
+    caption="All regular season & Playoff",
+    x = "Percentage_shot_made",y="all shot 3pt"
+  ) +
+  theme_minimal()
+
+  # Calculate midpoint for x and y axes
+  x_midpoint_plot101 <- median(t3$numeric_percentage)
+  y_midpoint_plot101 <- median(t3$allshot)
+  
+  # Add lines to create four quadrants
+  plot_101 <- plot_101 +
+    geom_vline(xintercept = x_midpoint_plot101, linetype = "solid", color = "black", size = 0.5) +  
+    # Adjust size for the vertical line
+    geom_hline(yintercept = y_midpoint_plot101, linetype = "solid", color = "black", size = 0.5)     
+    # Adjust size for the horizontal line
+
+print(plot_101)
+
+############################
+#### Stat Laker Player 2 and 3 made , missed, total_shot attempt 08 -09 season
+############################
+
+view(lakers)
+## data transformations
+FT_shoot_select <- c("shot","free throw")
+
+P_boxall_1 <- lakers %>%
+  ## filter only Laker team and etype = shoot/free throw
+  filter(team == "LAL" & etype == FT_shoot_select & player != "Yue Sun") %>%
+  ## Group By Pbox_all for player
+  group_by(player) %>%
+  ## Summarize all 2PA 3PA FTA 2PM 3PM FTM and also missed (% percentage)
+  summarize(
+    ## 2point 
+    all_2pa = sum(type != "3pt"),
+    Two_pt_made = sum(result == "made" & type != "3pt"),
+    Two_pt_missed = all_2pa - Two_pt_made,
+    Percentage_2pt_made = round(((all_2pa - Two_pt_missed) / all_2pa) * 100, 2),
+    ## 3point 
+    all_3pa = sum(type == "3pt"),
+    Three_pt_made = sum(result == "made" & type == "3pt"),
+    Three_pt_missed = all_3pa - Three_pt_made,
+    Percentage_3pt_made = round(((all_3pa - Three_pt_missed) / all_3pa) * 100, 2),
+    ## Free throw
+    all_FTA = sum(etype == "free throw"),
+    all_FTM = sum(result == "made" & etype == "free throw"),
+    all_FT_missed = all_FTA - all_FTM,
+    Percentage_FT_made = round(((all_FTA - all_FT_missed) / all_FTA) * 100, 2),
+    # All attempt
+    total_shots = all_2pa + all_3pa + all_FTA) %>%
+    ## filter value = NUll to 0
+    mutate(Percentage_3pt_made = ifelse(is.na(Percentage_3pt_made), 0, Percentage_3pt_made),
+           Percentage_FT_made = ifelse(is.nan(Percentage_FT_made), 0, Percentage_FT_made)) %>%
+  as.data.frame()
+
+## Advance plot Player Laker stat score by 2pt 3pt FTM and all attempt
+# Load libraries
+library(ggplot2)
+
+# Create a data frame with necessary columns
+X10 <- data.frame(
+  player = P_boxall_1$player,
+  P2p = P_boxall_1$Percentage_2pt_made,
+  P3p = P_boxall_1$Percentage_3pt_made,
+  FTp = P_boxall_1$Percentage_FT_made,
+  AS = P_boxall_1$all_2pa + P_boxall_1$all_3pa + P_boxall_1$all_FTA
+)
+
+# Create the plot
+plot_advance <- ggplot(X10, aes(x = P2p, y = P3p, size = AS, color = FTp)) +
+  geom_point() +
+  xlim(0, 100) +  
+  scale_size_continuous(name = "Total Shots Attempted") +
+  scale_color_continuous(name = "Free Throws (% Made)") +
+  labs(x = "2-point shots (% made)", y = "3-point shots (% made)", 
+       title ="Advance plot",
+       subtitle="Stat Laker Player 2 and 3 made , missed, total_shot attempt 08 -09 season") +
+  geom_text(aes(label = player), nudge_x = 0, nudge_y = 1, size = 3) +
+  scale_color_gradient(low = "gold", high = "purple") +
+  theme_minimal()
+
+# Calculate midpoint for x and y axes
+x_midpoint_advance <- median(X10$P2p)
+y_midpoint_advance <- median(X10$P3p)
+
+# Add lines to create four quadrants
+plot_advance <- plot_advance +
+  geom_vline(xintercept = x_midpoint_advance, linetype = "solid", color = "black", size = 0.1) +  
+  # Adjust size for the vertical line
+  geom_hline(yintercept = y_midpoint_advance, linetype = "solid", color = "black", size = 0.1)     
+  # Adjust size for the horizontal line
+
+# Print the plot
+print(plot_advance)
+
+
+```
+
